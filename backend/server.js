@@ -9,6 +9,7 @@ const coggleRoutes = require('./routes/coggleRoutes')
 const submitQuizRoutes = require('./routes/submitQuizRoutes')
 const mealPlanRoutes = require('./routes/mealPlanRoutes')
 const foodTrackRoutes = require('./routes/foodTrackRoutes')
+const activityTrackRoutes = require('./routes/activityTrackRoutes')
 
 // const uservalidation = require('./middleware/uservalidation')
 
@@ -29,6 +30,7 @@ app.use('/api/quizzes', quizRoutes)
 app.use('/api/submissions', submitQuizRoutes)
 app.use('/api/meal-plans' , mealPlanRoutes)
 app.use('/api/food-tracks', foodTrackRoutes)
+app.use('/api/activity-tracks', activityTrackRoutes)
 
 
 app.listen(PORT, '0.0.0.0', () => {

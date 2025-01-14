@@ -4,30 +4,30 @@ import Layout from '../components/Layout';
 import api from '../lib/api';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const FoodTrackScreen = () => {
+const ActivityTrackScreen = () => {
     const [showInput, setShowInput] = useState(false);
-    const [foodData, setFoodData] = useState([]);
+    const [activityData, setActivityData] = useState([]);
     const [formData, setFormData] = useState({
         date: '',
         time: '',
-        food: '',
-        calorie: '',
+        activity: '',
+        duration: '',
     });
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
 
-    const fetchFoodTrackData = async () => {
+    const fetchActivityTrackData = async () => {
         try {
-            const response = await api.get('/api/food-tracks')
-            const data = response.data.foodTracks
-            setFoodData(data)
+            const response = await api.get('/api/activity-tracks')
+            const data = response.data.activityTracks
+            setActivityData(data)
         } catch (error) {
-            console.error("error in fetching food track data", error)
+            console.error("error in fetching activity track data", error)
         }
     }
 
     useEffect(() => {
-        fetchFoodTrackData();
+      fetchActivityTrackData();
     }, [])
 
     const handleDateChange = (event, selectedDate) => {
@@ -47,26 +47,24 @@ const FoodTrackScreen = () => {
     };
 
     const handleSave = async () => {
-
         try {
+            const { date, activity } = formData;
 
-            const { date, food } = formData;
-
-            if (!date || !food) {
-                Alert.alert("Date and food are required!");
+            if (!date || !activity) {
+                Alert.alert("Date and activity are required!");
                 return;
             }
 
-            const response = await api.post('/api/food-tracks', formData)
+            const response = await api.post('/api/activity-tracks', formData)
 
             setFormData({
                 date: '',
                 time: '',
-                food: '',
-                calorie: ''
+                activity: '',
+                duration: ''
             })
             setShowInput(false)
-            fetchFoodTrackData();
+            fetchActivityTrackData();
         } catch (error) {
             console.error("error in saving the data", error.message)
             Alert.alert("failed to save the data")
@@ -127,16 +125,16 @@ const FoodTrackScreen = () => {
                         <View className="flex-row justify-between space-x-2 mb-2">
                             <TextInput
                                 className="flex-1 border border-gray-300 rounded-md p-2 mr-2"
-                                placeholder="Food"
-                                value={formData.food}
-                                onChangeText={(text) => setFormData({ ...formData, food: text })}
+                                placeholder="Activity"
+                                value={formData.activity}
+                                onChangeText={(text) => setFormData({ ...formData, activity: text })}
                             />
                             <TextInput
                                 className="flex-1 border border-gray-300 rounded-md p-2"
-                                placeholder="Qty"
+                                placeholder="Duration"
                                 // keyboardType="numeric"
-                                value={formData.calorie}
-                                onChangeText={(text) => setFormData({ ...formData, calorie: text })}
+                                value={formData.duration}
+                                onChangeText={(text) => setFormData({ ...formData, duration: text })}
                             />
                         </View>
                         <TouchableOpacity
@@ -148,33 +146,32 @@ const FoodTrackScreen = () => {
                     </View>
                 )}
 
-                {/* Food Data List */}
 
-                {foodData.length === 0 ? (
+                {activityData.length === 0 ? (
                 <View className="mt-2">
-                    <Text>You have no items in your food track. Please add a item</Text>
+                    <Text>You have no items in your activity track. Please add a item</Text>
                 </View>
                 ) : (
                 <FlatList
                     className="mt-4"
-                    data={foodData}
+                    data={activityData}
                     keyExtractor={(item, index) => index.toString()}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <View className="flex-row justify-between bg-white p-2 border border-gray-300 rounded-md mb-2">
                             <Text>{item.date}</Text>
                             <Text>{item.time}</Text>
-                            <Text>{item.food}</Text>
-                            <Text>{item.calorie}</Text>
+                            <Text>{item.activity}</Text>
+                            <Text>{item.duration}</Text>
                         </View>
                     )}
                     ListHeaderComponent={
-                        foodData.length > 0 && (
+                        activityData.length > 0 && (
                             <View className="flex-row justify-between bg-gray-200 p-2 border border-gray-300 rounded-md">
                                 <Text className="font-bold">Date</Text>
                                 <Text className="font-bold">Time</Text>
-                                <Text className="font-bold">Food</Text>
-                                <Text className="font-bold">Qty</Text>
+                                <Text className="font-bold">Activity</Text>
+                                <Text className="font-bold">Duration</Text>
                             </View>
                         )
                     }
@@ -186,4 +183,4 @@ const FoodTrackScreen = () => {
     );
 };
 
-export default FoodTrackScreen;
+export default ActivityTrackScreen;

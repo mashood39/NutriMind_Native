@@ -13,6 +13,7 @@ import QuizScreen from './screens/QuizScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import MealPlanScreen from './screens/MealPlanScreen';
 import FoodTrackScreen from './screens/FoodTrackScreen';
+import ActivityTrackScreen from './screens/ActivityTrackScreen';
 
 import {  AuthProvider } from './context/AuthContext';
 
@@ -37,6 +38,7 @@ export default function App() {
           <Stack.Screen name="ProfileScreen" options={{ headerShown: false }} component={ProfileScreen} />
           <Stack.Screen name="MealPlanScreen" options={{ headerShown: false }} component={MealPlanScreen} />
           <Stack.Screen name="FoodTrackScreen" options={{ headerShown: false }} component={FoodTrackScreen} />
+          <Stack.Screen name="ActivityTrackScreen" options={{ headerShown: false }} component={ActivityTrackScreen} />
         </Stack.Navigator>
       </AuthProvider>
     </NavigationContainer>

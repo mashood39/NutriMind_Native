@@ -74,7 +74,10 @@ const ProfileScreen = ({ navigation }) => {
 
             {/* Tracker Item 2 */}
             <View>
-              <TouchableOpacity className="flex-row items-center bg-gray-200 p-4 rounded-lg">
+              <TouchableOpacity
+                className="flex-row items-center bg-gray-200 p-4 rounded-lg"
+                onPress={() => navigation.navigate('ActivityTrackScreen')}
+              >
                 <Image
                   source={require('../assets/icons/pulse_icon.png')} // Replace with activity icon
                   className="w-10 h-10 mr-4"
