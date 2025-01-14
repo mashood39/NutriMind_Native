@@ -8,6 +8,7 @@ const userRoutes = require('./routes/userRoutes')
 const coggleRoutes = require('./routes/coggleRoutes')
 const submitQuizRoutes = require('./routes/submitQuizRoutes')
 const mealPlanRoutes = require('./routes/mealPlanRoutes')
+const foodTrackRoutes = require('./routes/foodTrackRoutes')
 
 // const uservalidation = require('./middleware/uservalidation')
 
@@ -27,6 +28,8 @@ app.use('/api/blogs', blogRoutes)
 app.use('/api/quizzes', quizRoutes)
 app.use('/api/submissions', submitQuizRoutes)
 app.use('/api/meal-plans' , mealPlanRoutes)
+app.use('/api/food-tracks', foodTrackRoutes)
+
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log('server running succesfully,', PORT)

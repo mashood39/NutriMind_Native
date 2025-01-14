@@ -16,8 +16,8 @@ const SigninScreen = ({ navigation }) => {
         const checkToken = async () => {
             const token = await SecureStore.getItemAsync('jwtToken');
             if (token) {
-                // setMessage('Redirecting to home page .......')
-                // navigation.navigate('HomeScreen')
+                setMessage('Redirecting to home page .......')
+                navigation.navigate('HomeScreen')
             }
         };
         checkToken();

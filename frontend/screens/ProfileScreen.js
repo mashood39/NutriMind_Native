@@ -2,7 +2,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Layout from '../components/Layout'
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
   return (
     <Layout>
       <View>
@@ -57,7 +57,10 @@ const ProfileScreen = () => {
         <View>
           <View>
             <View>
-              <TouchableOpacity className="flex-row items-center bg-gray-200 p-4 rounded-lg mb-4">
+              <TouchableOpacity
+                className="flex-row items-center bg-gray-200 p-4 rounded-lg mb-4"
+                onPress={() => navigation.navigate('FoodTrackScreen')}
+              >
                 <Image
                   source={require('../assets/icons/no_food.png')}
                   className="w-10 h-10 mr-4"

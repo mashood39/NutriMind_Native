@@ -12,6 +12,7 @@ import MindMapScreen from './screens/MindMapScreen';
 import QuizScreen from './screens/QuizScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import MealPlanScreen from './screens/MealPlanScreen';
+import FoodTrackScreen from './screens/FoodTrackScreen';
 
 import {  AuthProvider } from './context/AuthContext';
 
@@ -24,7 +25,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <AuthProvider>
-        <Stack.Navigator initialRouteName="Welcome">
+        <Stack.Navigator initialRouteName="HomeScreen">
           <Stack.Screen name="Welcome" options={{ headerShown: false }} component={WelcomeScreen} />
           <Stack.Screen name="SignIn" options={{ headerShown: false }} component={SigninScreen} />
           <Stack.Screen name="HomeScreen" options={{ headerShown: false }}  component={HomeScreen} />
@@ -35,6 +36,7 @@ export default function App() {
           <Stack.Screen name="QuizScreen" options={{ headerShown: false }} component={QuizScreen} />
           <Stack.Screen name="ProfileScreen" options={{ headerShown: false }} component={ProfileScreen} />
           <Stack.Screen name="MealPlanScreen" options={{ headerShown: false }} component={MealPlanScreen} />
+          <Stack.Screen name="FoodTrackScreen" options={{ headerShown: false }} component={FoodTrackScreen} />
         </Stack.Navigator>
       </AuthProvider>
     </NavigationContainer>
