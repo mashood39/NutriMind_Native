@@ -8,7 +8,7 @@ const ProfileScreen = ({ navigation }) => {
       <View>
         <View className="flex-row items-center mb-8">
           <Image
-            source={require('../assets/images/blogImages/image_2.png')}
+            source={require('../assets/images/image_1.png')}
             className="w-16 h-16 rounded-full mr-4"
           />
           <Text className="text-lg font-bold text-gray-800" >Joe Jacob</Text>
