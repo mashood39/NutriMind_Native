@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, FlatList, Alert, Platform } fr
 import Layout from '../components/Layout';
 import api from '../lib/api';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ActivityTrackScreen = () => {
     const [showInput, setShowInput] = useState(false);
@@ -27,7 +28,7 @@ const ActivityTrackScreen = () => {
     }
 
     useEffect(() => {
-      fetchActivityTrackData();
+        fetchActivityTrackData();
     }, [])
 
     const handleDateChange = (event, selectedDate) => {
@@ -70,6 +71,18 @@ const ActivityTrackScreen = () => {
             Alert.alert("failed to save the data")
         }
     };
+
+    const deleteActivityTrack = async (id) => {
+        try {
+            const response = await api.delete(`/api/activity-tracks/${id}`)
+            console.log(response)
+            if (response.status === 200) {
+                setActivityData((prevData) => prevData.filter((item) => item._id !== id))
+            }
+        } catch (error) {
+            console.error("error in deleting the activity track", error)
+        }
+    }
 
     return (
         <Layout>
@@ -148,34 +161,38 @@ const ActivityTrackScreen = () => {
 
 
                 {activityData.length === 0 ? (
-                <View className="mt-2">
-                    <Text>You have no items in your activity track. Please add a item</Text>
-                </View>
+                    <View className="mt-2">
+                        <Text>You have no items in your activity track. Please add a item</Text>
+                    </View>
                 ) : (
-                <FlatList
-                    className="mt-4"
-                    data={activityData}
-                    keyExtractor={(item, index) => index.toString()}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                        <View className="flex-row justify-between bg-white p-2 border border-gray-300 rounded-md mb-2">
-                            <Text>{item.date}</Text>
-                            <Text>{item.time}</Text>
-                            <Text>{item.activity}</Text>
-                            <Text>{item.duration}</Text>
-                        </View>
-                    )}
-                    ListHeaderComponent={
-                        activityData.length > 0 && (
-                            <View className="flex-row justify-between bg-gray-200 p-2 border border-gray-300 rounded-md">
-                                <Text className="font-bold">Date</Text>
-                                <Text className="font-bold">Time</Text>
-                                <Text className="font-bold">Activity</Text>
-                                <Text className="font-bold">Duration</Text>
+                    <FlatList
+                        className="mt-4"
+                        data={activityData}
+                        // keyExtractor={(item, index) => index.toString()}
+                        keyExtractor={(item) => item._id.toString()}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={({ item }) => (
+                            <View className="flex-row justify-between bg-white p-2 border border-gray-300 rounded-md mb-2">
+                                <Text>{item.date}</Text>
+                                <Text>{item.time}</Text>
+                                <Text>{item.activity}</Text>
+                                <Text>{item.duration}</Text>
+                                <TouchableOpacity onPress={() => deleteActivityTrack(item._id)}>
+                                    <Icon name="delete" size={24} color="red" />
+                                </TouchableOpacity>
                             </View>
-                        )
-                    }
-                />
+                        )}
+                        ListHeaderComponent={
+                            activityData.length > 0 && (
+                                <View className="flex-row justify-between bg-gray-200 p-2 border border-gray-300 rounded-md">
+                                    <Text className="font-bold">Date</Text>
+                                    <Text className="font-bold">Time</Text>
+                                    <Text className="font-bold">Activity</Text>
+                                    <Text className="font-bold">Duration</Text>
+                                </View>
+                            )
+                        }
+                    />
                 )}
 
             </View>

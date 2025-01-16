@@ -29,7 +29,10 @@ const getSubmittedQuiz = async (req, res) => {
         const submission = await SubmitQuiz.findOne({ quizId })
 
         if (!submission) {
-            return res.status(404).json({ message: 'No previous submissions found for this quiz' })
+            return res.status(404).json({
+                success: false,
+                message: 'No previous submissions found for this quiz'
+            })
         }
 
         res.status(200).json(submission)
@@ -47,7 +50,7 @@ const resetQuiz = async (req, res) => {
     try {
         // const deleteSubmission = await SubmitQuiz.findOneAndDelete({ quizId, userId })
         const deleteSubmission = await SubmitQuiz.findOneAndDelete({ quizId })
-
+        console.log(deleteSubmission)
         if (!deleteSubmission) {
             return res.status(404).json({ message: "no submission found to reset the quiz" })
         }

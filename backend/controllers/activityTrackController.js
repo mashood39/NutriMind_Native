@@ -21,7 +21,24 @@ const createActivityTrack = async (req, res) => {
     }
 }
 
+const deleteActivityTrack = async (req, res) => {
+    try {
+        const { id } = req.params
+        const deletedActivityTrack = await ActivityTrack.findByIdAndDelete(id);
+
+        if (!deletedActivityTrack) {
+            return res.status(404).json({ message: "activity track not found" })
+        }
+
+        res.status(200).json({ message: "activity track deleted succesfully" })
+    } catch (error) {
+        console.error("error in deleting acitivity track", error)
+        res.status(500).json({ messasge: "error in deleting activity track" })
+    }
+}
+
 module.exports = {
     getActivityTracks,
-    createActivityTrack
+    createActivityTrack,
+    deleteActivityTrack
 }

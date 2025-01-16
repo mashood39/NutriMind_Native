@@ -51,10 +51,10 @@ const FoodTrackScreen = () => {
 
         try {
 
-            const { date, food } = formData;
+            const { date,time, food } = formData;
 
-            if (!date || !food) {
-                Alert.alert("Date and food are required!");
+            if (!date || !food || !time) {
+                Alert.alert("Date, time and food are required!");
                 return;
             }
 
@@ -93,7 +93,7 @@ const FoodTrackScreen = () => {
                 {!showInput && (
                     <View className="flex-row justify-end" >
                         <TouchableOpacity
-                            className=" rounded-md p-2 w-10  bg-gray-300"
+                            className=" rounded-md p-2 w-10  bg-green-400 mb-4"
                             onPress={() => setShowInput(true)}
                         >
                             <Text className="text-white text-center font-bold">+</Text>
@@ -162,40 +162,63 @@ const FoodTrackScreen = () => {
                 )}
 
                 {/* Food Data List */}
-
+                <View className="flex-row justify-between bg-gray-200 p-2 border border-gray-300 rounded-md">
+                    <Text className="font-bold text-center">Date</Text>
+                    <Text className="font-bold text-center">Time</Text>
+                    <Text className="font-bold text-center">Food</Text>
+                    <Text className="font-bold text-center mr-14">Qty</Text>
+                </View>
                 {foodData.length === 0 ? (
                     <View className="mt-2">
-                        <Text>You have no items in your food track. Please add a item</Text>
+                        <Text className="p-2 border border-gray-300 text-center rounded-md">Food track is empty. Please add a item</Text>
                     </View>
                 ) : (
-                    <FlatList
-                        className="mt-4"
-                        data={foodData}
-                        // keyExtractor={(item, index) => index.toString()}
-                        keyExtractor={(item) => item._id.toString()}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={({ item }) => (
-                            <View className="flex-row justify-around bg-white p-2 border border-gray-300 rounded-md mb-2">
-                                <Text>{item.date}</Text>
-                                <Text>{item.time}</Text>
-                                <Text>{item.food}</Text>
-                                <Text>{item.calorie}</Text>
+                    // <FlatList
+                    //     className="mt-4"
+                    //     data={foodData}
+                    //     // keyExtractor={(item, index) => index.toString()}
+                    //     keyExtractor={(item) => item._id.toString()}
+                    //     showsVerticalScrollIndicator={false}
+                    //     renderItem={({ item }) => (
+                    //         <View className="flex-row justify-between bg-white p-2 border border-gray-200 rounded-md">
+                    //             <Text>{item.date}</Text>
+                    //             <Text>{item.time}</Text>
+                    //             <Text>{item.food}</Text>
+                    //             <Text>{item.calorie}</Text>
+                    //             <TouchableOpacity onPress={() => deleteFoodTrack(item._id)}>
+                    //                 <Icon name="delete" size={24} color="red" />
+                    //             </TouchableOpacity>
+                    //         </View>
+                    //     )}
+                    //     ListHeaderComponent={
+                    //         foodData.length > 0 && (
+                    //             <View className="flex-row justify-around bg-gray-200 p-2 border border-gray-300 rounded-md">
+                    //                 <Text className="font-bold">Date</Text>
+                    //                 <Text className="font-bold">Time</Text>
+                    //                 <Text className="font-bold">Food</Text>
+                    //                 <Text className="font-bold">Qty</Text>
+                    //             </View>
+                    //         )
+                    //     }
+                    // />
+
+                    foodData.map((item) => (
+                        <View
+                            key={item._id}
+                            className="flex-row bg-white p-2 border border-gray-200 rounded-md"
+                        >
+                            <Text className="mr-6">{item.date}</Text>
+                            <Text className="text-center mr-4">{item.time}</Text>
+                            <Text className="flex-1 text-center">{item.food}</Text>
+                            <Text className="flex-1 text-center">{item.calorie}</Text>
+                            <View className="">
                                 <TouchableOpacity onPress={() => deleteFoodTrack(item._id)}>
-                                    <Icon name="delete" size={24} color="red" />
+                                    <Icon name="delete" size={25} color="red" />
                                 </TouchableOpacity>
                             </View>
-                        )}
-                        ListHeaderComponent={
-                            foodData.length > 0 && (
-                                <View className="flex-row justify-around bg-gray-200 p-2 border border-gray-300 rounded-md">
-                                    <Text className="font-bold">Date</Text>
-                                    <Text className="font-bold">Time</Text>
-                                    <Text className="font-bold">Food</Text>
-                                    <Text className="font-bold">Qty</Text>
-                                </View>
-                            )
-                        }
-                    />
+                        </View>
+                    ))
+
                 )}
 
             </View>

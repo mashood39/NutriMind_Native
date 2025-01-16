@@ -9,3 +9,4 @@ const quizSubmitSchema = new mongoose.Schema({
 const SubmitQuiz = mongoose.model('SubmitQuiz', quizSubmitSchema)
 
 module.exports = { SubmitQuiz }
+
