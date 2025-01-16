@@ -14,7 +14,7 @@ const QuizScreen = ({ route }) => {
     const [score, setScore] = useState(0);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [previousSubmission, setPreviousSubmission] = useState(null);
-    const [userId, setUserId] = useState(null);
+    // const [userId, setUserId] = useState(null);
 
     useEffect(() => {
         fetchQuiz();
@@ -22,18 +22,18 @@ const QuizScreen = ({ route }) => {
         // getUserId(); // Fetch the user ID from AsyncStorage
     }, []);
 
-    const getUserId = async () => {
-        try {
-            const storedUserId = await AsyncStorage.getItem('userId'); // Assuming you've stored it
-            if (storedUserId) {
-                setUserId(storedUserId);
-            }
-            console.log(storedUserId)
-            console.log("fetch user di scucess.")
-        } catch (error) {
-            console.error('Error fetching user ID from AsyncStorage', error.message);
-        }
-    };
+    // const getUserId = async () => {
+    //     try {
+    //         const storedUserId = await AsyncStorage.getItem('userId'); // Assuming you've stored it
+    //         if (storedUserId) {
+    //             setUserId(storedUserId);
+    //         }
+    //         console.log(storedUserId)
+    //         console.log("fetch user di scucess.")
+    //     } catch (error) {
+    //         console.error('Error fetching user ID from AsyncStorage', error.message);
+    //     }
+    // };
 
     const fetchQuiz = async () => {
         try {
@@ -48,9 +48,15 @@ const QuizScreen = ({ route }) => {
         // if (!userId) return; // Avoid making request if userId is not available yet
         try {
             const response = await api.get(`/api/submissions/${quizId}`);
-            setPreviousSubmission(response.data);
+            setPreviousSubmission(response.data)
         } catch (error) {
-            console.error('Error fetching previous submission:', error.message);
+            if (error.response && error.response.status === 404) {
+                console.log('No previous submission found for this quiz.');
+                setPreviousSubmission(null);
+            }
+            else {
+                console.error('Error fetching previous submission:', error.message);
+            }
         }
     };
 

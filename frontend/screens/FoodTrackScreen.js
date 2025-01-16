@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, FlatList, Alert, Platform } fr
 import Layout from '../components/Layout';
 import api from '../lib/api';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const FoodTrackScreen = () => {
     const [showInput, setShowInput] = useState(false);
@@ -72,6 +73,18 @@ const FoodTrackScreen = () => {
             Alert.alert("failed to save the data")
         }
     };
+
+    const deleteFoodTrack = async (id) => {
+        try {
+            const response = await api.delete(`/api/food-tracks/${id}`)
+            console.log(response)
+            if (response.status === 200) {
+                setFoodData((prevData) => prevData.filter((item) => item._id !== id))
+            }
+        } catch (error) {
+            console.error("error in deleting the food track", error)
+        }
+    }
 
     return (
         <Layout>
@@ -151,34 +164,38 @@ const FoodTrackScreen = () => {
                 {/* Food Data List */}
 
                 {foodData.length === 0 ? (
-                <View className="mt-2">
-                    <Text>You have no items in your food track. Please add a item</Text>
-                </View>
+                    <View className="mt-2">
+                        <Text>You have no items in your food track. Please add a item</Text>
+                    </View>
                 ) : (
-                <FlatList
-                    className="mt-4"
-                    data={foodData}
-                    keyExtractor={(item, index) => index.toString()}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                        <View className="flex-row justify-between bg-white p-2 border border-gray-300 rounded-md mb-2">
-                            <Text>{item.date}</Text>
-                            <Text>{item.time}</Text>
-                            <Text>{item.food}</Text>
-                            <Text>{item.calorie}</Text>
-                        </View>
-                    )}
-                    ListHeaderComponent={
-                        foodData.length > 0 && (
-                            <View className="flex-row justify-between bg-gray-200 p-2 border border-gray-300 rounded-md">
-                                <Text className="font-bold">Date</Text>
-                                <Text className="font-bold">Time</Text>
-                                <Text className="font-bold">Food</Text>
-                                <Text className="font-bold">Qty</Text>
+                    <FlatList
+                        className="mt-4"
+                        data={foodData}
+                        // keyExtractor={(item, index) => index.toString()}
+                        keyExtractor={(item) => item._id.toString()}
+                        showsVerticalScrollIndicator={false}
+                        renderItem={({ item }) => (
+                            <View className="flex-row justify-around bg-white p-2 border border-gray-300 rounded-md mb-2">
+                                <Text>{item.date}</Text>
+                                <Text>{item.time}</Text>
+                                <Text>{item.food}</Text>
+                                <Text>{item.calorie}</Text>
+                                <TouchableOpacity onPress={() => deleteFoodTrack(item._id)}>
+                                    <Icon name="delete" size={24} color="red" />
+                                </TouchableOpacity>
                             </View>
-                        )
-                    }
-                />
+                        )}
+                        ListHeaderComponent={
+                            foodData.length > 0 && (
+                                <View className="flex-row justify-around bg-gray-200 p-2 border border-gray-300 rounded-md">
+                                    <Text className="font-bold">Date</Text>
+                                    <Text className="font-bold">Time</Text>
+                                    <Text className="font-bold">Food</Text>
+                                    <Text className="font-bold">Qty</Text>
+                                </View>
+                            )
+                        }
+                    />
                 )}
 
             </View>
